@@ -26,3 +26,10 @@ python floating_window.py
 ```
 
 首次运行会自动创建 `data/` 目录并初始化示例数据。
+
+
+## 许可证
+本项目基于 **GNU General Public License v3.0** 开源。  
+详见 [LICENSE](LICENSE) 文件。
+
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
