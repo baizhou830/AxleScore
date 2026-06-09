@@ -1,5 +1,9 @@
 # AxleScore
 
+![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg) 
+![Python](https://img.shields.io/badge/Python-3.7%2B-blue) 
+![Platform](https://img.shields.io/badge/Platform-Windows-lightgrey)
+
 一个轻量（real？）的小组积分管理工具，基于 PyQt5 构建，以悬浮窗形式常驻桌面，方便教师实时加减分、查看趋势。数据以JSON格式持久化储存。（不是SQL用不起，而是JSON更有性价比）
 
 ## 功能
@@ -31,5 +35,3 @@ python floating_window.py
 ## 许可证
 本项目基于 **GNU General Public License v3.0** 开源。  
 详见 [LICENSE](LICENSE) 文件。
-
-[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
