@@ -21,7 +21,7 @@
 ## 安装与运行
 
 ```bash
-pip install PyQt5 matplotlib numpy
+pip install -r requirements.txt
 python floating_window.py
 ```
 
