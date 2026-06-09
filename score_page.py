@@ -1,4 +1,3 @@
-"""分数管理页面 - 增减分数、新建周次、查看操作日志"""
 from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QLabel,
                               QPushButton, QComboBox, QSpinBox,
                               QTableWidget, QTableWidgetItem, QHeaderView,

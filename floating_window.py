@@ -9,6 +9,7 @@ import data_manager as dm
 from score_page import ScorePage
 from group_page import GroupPage
 from trend_page import TrendPage
+from about import AboutPage
 
 
 class SidebarItem(QWidget):
@@ -213,12 +214,13 @@ class FloatingWindow(QWidget):
         side_layout.setSpacing(2)
 
         self.sidebar_items = []
-        for i, name in enumerate(["分数", "小组", "趋势"]):
+        for i, name in enumerate(["分数", "小组", "趋势", "关于"]):
             item = SidebarItem(name)
             item.mousePressEvent = lambda e, idx=i: self._on_sidebar(idx)
             self.sidebar_items.append(item)
             side_layout.addWidget(item)
-            if i < 2:
+            #补一个注释 这里的if判断是指在最后一个项目下不添加分割线。
+            if i < 3:
                 divider = QWidget()
                 divider.setFixedHeight(1)
                 divider.setFixedWidth(40)
@@ -248,10 +250,12 @@ class FloatingWindow(QWidget):
         self.score_page = ScorePage()
         self.group_page = GroupPage()
         self.trend_page = TrendPage()
+        self.about_page = AboutPage()
 
         self.content_stack.addWidget(self.score_page)
         self.content_stack.addWidget(self.group_page)
         self.content_stack.addWidget(self.trend_page)
+        self.content_stack.addWidget(self.about_page)
 
         bottom_layout.addWidget(self.content_stack, stretch=1)
         outer.addWidget(self.bottom_area, stretch=1)
@@ -280,7 +284,7 @@ class FloatingWindow(QWidget):
         self.current_idx = idx
         for i, item in enumerate(self.sidebar_items):
             item.set_selected(i == idx)
-        self.top_sub.setText(f"  /  {['分数', '小组', '趋势'][idx]}")
+        self.top_sub.setText(f"  /  {['分数', '小组', '趋势', '关于'][idx]}")
 
         # 滑动指示条到目标项
         target_item = self.sidebar_items[idx]
