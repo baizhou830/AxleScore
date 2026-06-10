@@ -37,10 +37,14 @@ class AboutPage(QWidget):
         about_box = QGroupBox("关于 AxleScore")
         about_box.setStyleSheet(STYLE)
         about_layout = QVBoxLayout(about_box)
+        about_layout.addWidget(QLabel("AxleScore 轻量级课堂小组积分管理工具"))
+        about_layout.addWidget(QLabel(" "))
         about_layout.addWidget(QLabel("版本：1.0.1"))
         about_layout.addWidget(QLabel("作者：Axlewire"))
-        about_layout.addWidget(QLabel("许可：GPL v3"))
-        about_layout.addWidget(QLabel("仓库：https://github.com/baizhou830/AxleScore"))
+        about_layout.addWidget(QLabel("许可证：GPL v3"))
+        about_layout.addWidget(QLabel(" "))
+        about_layout.addWidget(QLabel("仓库主页：https://github.com/baizhou830/AxleScore"))
+        about_layout.addWidget(QLabel("反馈建议：直接提Issue"))
         layout.addWidget(about_box)
 
         # TODO：设置组
