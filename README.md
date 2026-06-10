@@ -1,6 +1,6 @@
 # AxleScore
 
-![License: GPL v3](https://img.shields.io/badge/License-AGPLv3-blue.svg) 
+![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg) 
 ![Python](https://img.shields.io/badge/Python-3.7%2B-blue) 
 ![Platform](https://img.shields.io/badge/Platform-Windows-lightgrey)
 
@@ -33,5 +33,5 @@ python floating_window.py
 
 
 ## 许可证
-本项目基于 **GNU Affero General Public License v3** 开源。  
+本项目基于 **GNU General Public License v3** 开源。  
 详见 [LICENSE](LICENSE) 文件。
