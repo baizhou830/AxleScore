@@ -235,9 +235,25 @@ def save_registry(registry_data):
 def get_models():
     registry = get_registry()
     models_list = registry.get("models", [])
-    attr_dict = {item["model_name"]: item.get("model_path") for item in registry.get("Attribute", [])}
-    models_paths = [attr_dict[name] for name in models_list if name in attr_dict]
-    return models_list, models_paths
+    attr_dict = {item["model_name"]: item for item in registry.get("Attribute", [])}
+    result = []
+    for name in models_list:
+        if name not in attr_dict:
+            continue
+        attr = attr_dict[name]
+        class_name = attr.get("model_class", "")
+        #旧版registry没有model_class字段，尝试按文件名推断
+        if not class_name:
+            module_name = attr.get("model_path", "").replace(".py", "")
+            class_name = module_name.split("_")[0].title() + "".join(
+                w.title() for w in module_name.split("_")[1:]
+            ) + "Page" if module_name else ""
+        result.append({
+            "name": name,
+            "module": attr.get("model_path", "").replace(".py", ""),
+            "class_name": class_name,
+        })
+    return result
 
 def registry_creater():
     create = {
@@ -247,25 +263,29 @@ def registry_creater():
                 "model_name" : "分数",
                 "writer" : "Axlewire",
                 "descriptions" : "用于增减分数以及周次。",
-                "model_path" : "score_page.py"
+                "model_path" : "score_page.py",
+                "model_class" : "ScorePage"
             },
             {
                 "model_name" : "小组",
                 "writer" : "Axlewire",
                 "descriptions" : "用于管理小组成员以及小组。",
-                "model_path" : "group_page.py"
+                "model_path" : "group_page.py",
+                "model_class" : "GroupPage"
             },
             {
                 "model_name" : "趋势",
                 "writer" : "Axlewire",
                 "descriptions" : "用于查看分数统计。",
-                "model_path" : "trend_page.py"
+                "model_path" : "trend_page.py",
+                "model_class" : "TrendPage"
             },
             {
                 "model_name" : "关于",
                 "writer" : "Axlewire",
                 "descriptions" : "用于查看关于本项目的信息以及配置自定义项。",
-                "model_path" : "about_page.py"
+                "model_path" : "about.py",
+                "model_class" : "AboutPage"
             }
 
         ]

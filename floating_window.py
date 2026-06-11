@@ -1,4 +1,5 @@
 import sys
+import importlib
 from PyQt5.QtWidgets import (QApplication, QWidget, QLabel, QVBoxLayout,
                               QHBoxLayout, QPushButton, QStackedWidget)
 from PyQt5.QtCore import Qt, QPoint, QRect, QRectF, QPropertyAnimation, QEasingCurve, QTimer, pyqtProperty, QSettings
@@ -6,10 +7,6 @@ from PyQt5.QtGui import (QFont, QColor, QPainter, QBrush, QPen,
                           QPainterPath, QRegion, QCursor)
 
 import data_manager as dm
-from score_page import ScorePage
-from group_page import GroupPage
-from trend_page import TrendPage
-from about import AboutPage
 
 
 class SidebarItem(QWidget):
@@ -214,14 +211,14 @@ class FloatingWindow(QWidget):
         side_layout.setSpacing(2)
 
         self.sidebar_items = []
-        models_list, _ = dm.get_models()
-        for i, name in enumerate(models_list):
-            item = SidebarItem(name)
+        self._models = dm.get_models()
+        for i, model in enumerate(self._models):
+            item = SidebarItem(model["name"])
             item.mousePressEvent = lambda e, idx=i: self._on_sidebar(idx)
             self.sidebar_items.append(item)
             side_layout.addWidget(item)
             #补一个注释 这里的if判断是指在最后一个项目下不添加分割线。
-            if i < len(models_list)-1:
+            if i < len(self._models)-1:
                 divider = QWidget()
                 divider.setFixedHeight(1)
                 divider.setFixedWidth(40)
@@ -247,16 +244,14 @@ class FloatingWindow(QWidget):
         self.content_stack = QStackedWidget()
         self.content_stack.setStyleSheet("background: #fbfbfd;")
 
-        #页面
-        self.score_page = ScorePage()
-        self.group_page = GroupPage()
-        self.trend_page = TrendPage()
-        self.about_page = AboutPage()
-
-        self.content_stack.addWidget(self.score_page)
-        self.content_stack.addWidget(self.group_page)
-        self.content_stack.addWidget(self.trend_page)
-        self.content_stack.addWidget(self.about_page)
+        #根据注册表动态加载页面
+        self._pages = []
+        for model in self._models:
+            module = importlib.import_module(model["module"])
+            page_class = getattr(module, model["class_name"])
+            page = page_class()
+            self._pages.append(page)
+            self.content_stack.addWidget(page)
 
         bottom_layout.addWidget(self.content_stack, stretch=1)
         outer.addWidget(self.bottom_area, stretch=1)
@@ -265,9 +260,9 @@ class FloatingWindow(QWidget):
         self.content_stack.setCurrentIndex(0)
 
         # 初始化刷新
-        self.score_page.refresh()
-        self.group_page.refresh()
-        self.trend_page.refresh()
+        for page in self._pages:
+            if hasattr(page, 'refresh'):
+                page.refresh()
 
         #设置指示条初始位置
         QTimer.singleShot(50, self._init_indicator_pos)
@@ -279,14 +274,13 @@ class FloatingWindow(QWidget):
             self.sidebar_indicator.update()
 
     def _on_sidebar(self, idx):
-        models_list, _ = dm.get_models()
         if idx == self.current_idx:
             return
 
         self.current_idx = idx
         for i, item in enumerate(self.sidebar_items):
             item.set_selected(i == idx)
-        self.top_sub.setText(f"  /  {models_list[idx]}")
+        self.top_sub.setText(f"  /  {self._models[idx]['name']}")
 
         # 滑动指示条到目标项
         target_item = self.sidebar_items[idx]
@@ -297,12 +291,9 @@ class FloatingWindow(QWidget):
         self.content_stack.setCurrentIndex(idx)
 
         # 切换页面时刷新数据
-        if idx == 0:
-            self.score_page.refresh()
-        elif idx == 1:
-            self.group_page.refresh()
-        elif idx == 2:
-            self.trend_page.refresh()
+        page = self._pages[idx]
+        if hasattr(page, 'refresh'):
+            page.refresh()
 
     #收起
     def collapse(self):
