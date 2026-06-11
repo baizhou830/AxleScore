@@ -14,6 +14,7 @@ DATA_DIR = os.path.join(_BASE_DIR, "data")
 GROUPS_FILE = os.path.join(DATA_DIR, "groups.json")
 SCORES_FILE = os.path.join(DATA_DIR, "scores.json")
 LOGS_FILE = os.path.join(DATA_DIR, "logs.json")
+REGISTRY_FILE = os.path.join(DATA_DIR, "registry.json")
 
 #缓存
 _total_cache = {}
@@ -220,6 +221,57 @@ def clear_logs():
     _save_json(LOGS_FILE, [])
 
 
+#注册表
+
+def get_registry():
+    if not os.path.exists(REGISTRY_FILE):
+        registry_creater()
+    return _load_json(REGISTRY_FILE, [])
+    
+
+def save_registry(registry_data):
+    return _save_json(REGISTRY_FILE, registry_data)
+
+def get_models():
+    registry = get_registry()
+    models_list = registry.get("models", [])
+    attr_dict = {item["model_name"]: item.get("model_path") for item in registry.get("Attribute", [])}
+    models_paths = [attr_dict[name] for name in models_list if name in attr_dict]
+    return models_list, models_paths
+
+def registry_creater():
+    create = {
+        "models" : ["分数","小组","趋势","关于"],
+        "Attribute" : [
+            {
+                "model_name" : "分数",
+                "writer" : "Axlewire",
+                "descriptions" : "用于增减分数以及周次。",
+                "model_path" : "score_page.py"
+            },
+            {
+                "model_name" : "小组",
+                "writer" : "Axlewire",
+                "descriptions" : "用于管理小组成员以及小组。",
+                "model_path" : "group_page.py"
+            },
+            {
+                "model_name" : "趋势",
+                "writer" : "Axlewire",
+                "descriptions" : "用于查看分数统计。",
+                "model_path" : "trend_page.py"
+            },
+            {
+                "model_name" : "关于",
+                "writer" : "Axlewire",
+                "descriptions" : "用于查看关于本项目的信息以及配置自定义项。",
+                "model_path" : "about_page.py"
+            }
+
+        ]
+    }
+    _save_json(REGISTRY_FILE,create)
+
 
 #初始化
 
@@ -231,6 +283,7 @@ def init_data():
     save_groups(["第一组", "第二组", "第三组", "第四组", "第五组", "第六组", "第七组", "第八组"])
     scores = {"第1周": {"第一组": 0, "第二组": 0, "第三组": 0, "第四组": 0, "第五组": 0, "第六组": 0, "第七组": 0, "第八组": 0}}
     save_scores(scores)
+    registry_creater()
     add_log("系统初始化", "创建示例小组和第一周数据")
     #写入初始化标识
     with open(init_flag, "w", encoding="utf-8") as f:

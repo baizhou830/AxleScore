@@ -214,13 +214,14 @@ class FloatingWindow(QWidget):
         side_layout.setSpacing(2)
 
         self.sidebar_items = []
-        for i, name in enumerate(["分数", "小组", "趋势", "关于"]):
+        models_list, _ = dm.get_models()
+        for i, name in enumerate(models_list):
             item = SidebarItem(name)
             item.mousePressEvent = lambda e, idx=i: self._on_sidebar(idx)
             self.sidebar_items.append(item)
             side_layout.addWidget(item)
             #补一个注释 这里的if判断是指在最后一个项目下不添加分割线。
-            if i < 3:
+            if i < len(models_list)-1:
                 divider = QWidget()
                 divider.setFixedHeight(1)
                 divider.setFixedWidth(40)
@@ -246,7 +247,7 @@ class FloatingWindow(QWidget):
         self.content_stack = QStackedWidget()
         self.content_stack.setStyleSheet("background: #fbfbfd;")
 
-        # 三个页面
+        #页面
         self.score_page = ScorePage()
         self.group_page = GroupPage()
         self.trend_page = TrendPage()
@@ -278,13 +279,14 @@ class FloatingWindow(QWidget):
             self.sidebar_indicator.update()
 
     def _on_sidebar(self, idx):
+        models_list, _ = dm.get_models()
         if idx == self.current_idx:
             return
 
         self.current_idx = idx
         for i, item in enumerate(self.sidebar_items):
             item.set_selected(i == idx)
-        self.top_sub.setText(f"  /  {['分数', '小组', '趋势', '关于'][idx]}")
+        self.top_sub.setText(f"  /  {models_list[idx]}")
 
         # 滑动指示条到目标项
         target_item = self.sidebar_items[idx]
