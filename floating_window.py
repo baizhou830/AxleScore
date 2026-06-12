@@ -259,11 +259,6 @@ class FloatingWindow(QWidget):
         self.sidebar_items[0].set_selected(True)
         self.content_stack.setCurrentIndex(0)
 
-        # 初始化刷新
-        for page in self._pages:
-            if hasattr(page, 'refresh'):
-                page.refresh()
-
         #设置指示条初始位置
         QTimer.singleShot(50, self._init_indicator_pos)
 
@@ -289,11 +284,6 @@ class FloatingWindow(QWidget):
 
         # 直接切换页面
         self.content_stack.setCurrentIndex(idx)
-
-        # 切换页面时刷新数据
-        page = self._pages[idx]
-        if hasattr(page, 'refresh'):
-            page.refresh()
 
     #收起
     def collapse(self):

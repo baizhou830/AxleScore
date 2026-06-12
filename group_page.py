@@ -149,6 +149,10 @@ class GroupPage(QWidget):
 
     #操作
 
+    def showEvent(self, event):
+        super().showEvent(event)
+        self.refresh()
+
     def refresh(self):
         self._refresh_list()
         self._refresh_stats()

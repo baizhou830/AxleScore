@@ -86,6 +86,10 @@ class TrendPage(QWidget):
         self.canvas.setStyleSheet("background: #fbfbfd; border-radius: 8px;")
         layout.addWidget(self.canvas, stretch=1)
 
+    def showEvent(self, event):
+        super().showEvent(event)
+        self.refresh()
+
     #作
 
     def refresh(self):

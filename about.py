@@ -22,6 +22,11 @@ class AboutPage(QWidget):
         self.init_ui()
         self.setFixedHeight(420)
 
+    def showEvent(self, event):
+        super().showEvent(event)
+        if hasattr(self, 'refresh'):
+            self.refresh()
+
     def init_ui(self):
         layout = QVBoxLayout(self)
 
