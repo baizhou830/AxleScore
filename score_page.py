@@ -204,6 +204,10 @@ class ScorePage(QWidget):
 
     #操作
 
+    def showEvent(self, event):
+        super().showEvent(event)
+        self.refresh()
+
     def refresh(self):
         #周次下拉
         self.week_combo.blockSignals(True)
