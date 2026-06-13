@@ -32,7 +32,7 @@ matplotlib.rcParams['font.sans-serif'] = ['Microsoft YaHei', 'SimHei', 'sans-ser
 matplotlib.rcParams['axes.unicode_minus'] = False
 
 
-class TrendPage(QWidget):
+class StatisticsPage(QWidget):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.setStyleSheet("background: #fbfbfd;")

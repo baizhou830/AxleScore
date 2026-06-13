@@ -257,7 +257,7 @@ def get_models():
 
 def registry_creater():
     create = {
-        "models" : ["分数","小组","趋势","关于"],
+        "models" : ["分数","小组","统计","关于"],
         "Attribute" : [
             {
                 "model_name" : "分数",
@@ -274,11 +274,11 @@ def registry_creater():
                 "model_class" : "GroupPage"
             },
             {
-                "model_name" : "趋势",
+                "model_name" : "统计",
                 "writer" : "Axlewire",
                 "descriptions" : "用于查看分数统计。",
-                "model_path" : "trend_page.py",
-                "model_class" : "TrendPage"
+                "model_path" : "statistics_page.py",
+                "model_class" : "StatisticsPage"
             },
             {
                 "model_name" : "关于",
