@@ -103,6 +103,8 @@ class AboutPage(QWidget):
             if message1 == QMessageBox.Yes:
                 url = "https://www.bilibili.com/video/BV1UT42167xb"
                 webbrowser.open(url)
+                main_window = self.window()
+                main_window.collapse()          
 
         
         
