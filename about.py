@@ -1,5 +1,5 @@
 from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QLabel,
-                             QGroupBox, QPushButton, QLineEdit, QMessageBox)
+                             QGroupBox, QPushButton, QLineEdit, QCheckBox)
 from PyQt5.QtCore import Qt
 
 STYLE = """
@@ -13,6 +13,24 @@ STYLE = """
         subcontrol-origin: margin; left: 16px; padding: 0 6px;
     }
     QLabel { color: #1e2026; }
+"""
+
+COMBO_STYLE = """
+    QComboBox {
+        border: 1px solid #ebedf1;
+        border-radius: 6px; padding: 4px 8px;
+        background: white; color: #1e2026; font-size: 12px;
+    }
+    QComboBox::drop-down { border: none; }
+"""
+
+ACCENT_BTN_STYLE = """
+    QPushButton {
+        background: #5078f0; color: white; border: none;
+        border-radius: 6px; padding: 6px 14px;
+        font-size: 12px; font-weight: bold;
+    }
+    QPushButton:hover { background: #6090E8; }
 """
 
 class AboutPage(QWidget):
@@ -52,10 +70,27 @@ class AboutPage(QWidget):
         about_layout.addWidget(QLabel("反馈建议：直接提Issue"))
         layout.addWidget(about_box)
 
-        # TODO：设置组
+
+        # 设置组
         settings_box = QGroupBox("设置项")
         settings_box.setStyleSheet(STYLE)
         settings_layout = QVBoxLayout(settings_box)
-        settings_layout.addWidget(QLabel("设置施工中……"))
+        settings_layout.setSpacing(8)
+
+        row = QHBoxLayout()
+        row.addWidget(self._label("自启动："))
+        self.startup_btn = QPushButton("开/关")
+        self.startup_btn.setStyleSheet(ACCENT_BTN_STYLE)
+        row.addWidget(self.startup_btn)
+        row.addStretch()
+        settings_layout.addLayout(row)
+
+        settings_layout.addStretch()
         layout.addWidget(settings_box)
 
+    #样式
+    @staticmethod
+    def _label(text):
+        lbl = QLabel(text)
+        lbl.setStyleSheet(STYLE)
+        return lbl

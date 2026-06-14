@@ -182,7 +182,7 @@ class GroupPage(QWidget):
             lines.append(f"最高分小组: {best} ({best_score} 分)")
         lines.append("排行榜:")
         for i, (g, t) in enumerate(totals):
-            medal = ["🥇", "🥈", "🥉"][i] if i < 3 else f"#{i+1}"
+            medal = f"#{i+1}"
             lines.append(f"  {medal}  {g}: {t} 分")
 
         self.stat_label.setText("\n".join(lines))
