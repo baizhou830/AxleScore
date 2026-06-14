@@ -1,6 +1,9 @@
 from PyQt5.QtWidgets import (QWidget, QVBoxLayout, QHBoxLayout, QLabel,
-                             QGroupBox, QPushButton, QLineEdit, QCheckBox)
+                             QGroupBox, QPushButton, QLineEdit, QCheckBox,QMessageBox)
 from PyQt5.QtCore import Qt
+import webbrowser
+from PyQt5.QtWidgets import QApplication, QMainWindow
+
 
 STYLE = """
     QGroupBox {
@@ -78,15 +81,31 @@ class AboutPage(QWidget):
         settings_layout.setSpacing(8)
 
         row = QHBoxLayout()
-        row.addWidget(self._label("自启动："))
-        self.startup_btn = QPushButton("开/关")
+        row.addWidget(self._label("尝试使用 QVariantAnimation 步进优化替代 pyqtProperty 驱动（实验性）："))
+        self.startup_btn = QPushButton("未启用")
         self.startup_btn.setStyleSheet(ACCENT_BTN_STYLE)
+        self.startup_btn.clicked.connect(self.startup)
         row.addWidget(self.startup_btn)
         row.addStretch()
         settings_layout.addLayout(row)
 
         settings_layout.addStretch()
         layout.addWidget(settings_box)
+
+    def startup(self):
+        message = QMessageBox.question(self, "确认启用",
+                                     f"确定要启用该实验选项吗？\n若发生错误，目前的程序无法正确地fallback至 pyqtProperty 驱动，进而导致崩溃或异常。\n且 QVariantAnimation 所带来的优化极其有限。",
+                                     QMessageBox.Yes | QMessageBox.No)
+        if message == QMessageBox.Yes:
+            message1 = QMessageBox.question(self, "再次警告",
+                                     f"此实验性设置项可能会带来风险。可能导致 QVariantAnimation 与现有动画冲突，界面可能出现卡死或异常。",
+                                     QMessageBox.Yes | QMessageBox.No)
+            if message1 == QMessageBox.Yes:
+                url = "https://www.bilibili.com/video/BV1UT42167xb"
+                webbrowser.open(url)
+
+        
+        
 
     #样式
     @staticmethod
