@@ -102,6 +102,7 @@ class AboutPage(QWidget):
                                      QMessageBox.Yes | QMessageBox.No)
             if message1 == QMessageBox.Yes:
                 url = "https://www.bilibili.com/video/BV1UT42167xb"
+                #跳转RickRoll
                 webbrowser.open(url)
                 main_window = self.window()
                 main_window.collapse()          
