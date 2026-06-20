@@ -29,7 +29,8 @@
 
 ### 快速开始
 
- **EXE打包版本**: [Releases 页面](https://github.com/baizhou830/AxleScore/releases)
+ **EXE打包版本**: 
+ [Releases 页面](https://github.com/baizhou830/AxleScore/releases)
 直接下载 `AxleScore-vx.x.x.exe`，双击即可。（打包版本暂不支持插件增改。）
 
 ---
