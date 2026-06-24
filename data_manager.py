@@ -242,12 +242,6 @@ def get_models():
             continue
         attr = attr_dict[name]
         class_name = attr.get("model_class", "")
-        #旧版registry没有model_class字段，尝试按文件名推断
-        if not class_name:
-            module_name = attr.get("model_path", "").replace(".py", "")
-            class_name = module_name.split("_")[0].title() + "".join(
-                w.title() for w in module_name.split("_")[1:]
-            ) + "Page" if module_name else ""
         result.append({
             "name": name,
             "module": attr.get("model_path", "").replace(".py", ""),
