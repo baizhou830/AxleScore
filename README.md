@@ -27,12 +27,19 @@
 
 ## 安装与运行
 
+### 快速开始
+
+ **EXE打包版本**: 
+ [Releases 页面](https://github.com/baizhou830/AxleScore/releases)
+直接下载 `AxleScore-vx.x.x.zip`，解压后双击其中的exe即可。（打包版本暂不支持插件增改。）
+
+---
+
+### 二次开发/调试
 ```bash
 pip install -r requirements.txt
 python floating_window.py
 ```
-
-首次运行会自动创建 `data/` 目录并初始化示例数据。
 
 
 ## 许可证
