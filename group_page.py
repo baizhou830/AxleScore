@@ -230,3 +230,4 @@ class GroupPage(QWidget):
                 self.refresh()
             else:
                 QMessageBox.warning(self, "提示", msg)
+ 
